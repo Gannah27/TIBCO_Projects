@@ -54,7 +54,7 @@
         </config>
         <pd:inputBindings>
             <Files>
-                <xsl:for-each select="$List-Files/ns1:ListFilesActivityOutput/files/fileInfo[contains(fileName,'.txt') and starts-with(fileName,'file_')]">
+                <xsl:for-each select="$List-Files/ns1:ListFilesActivityOutput/files/fileInfo[contains(fileName,'.txt') and starts-with(fileName,'file')]">
                     <fileinfo>
                         <fullName>
                             <xsl:value-of select="fullName"/>
@@ -129,7 +129,7 @@
             <pd:inputBindings>
                 <ns0:ReadActivityInputClass xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/file/v2">
                     <fileName>
-                        <xsl:value-of select="$cFile/fileinfo/filename"/>
+                        <xsl:value-of select="$cFile/fileinfo/fullName"/>
                     </fileName>
                 </ns0:ReadActivityInputClass>
             </pd:inputBindings>
