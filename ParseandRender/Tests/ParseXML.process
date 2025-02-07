@@ -28,12 +28,12 @@
                         </pfx4:correlationId>
                     </pfx4:Context>
                     <pfx3:timestamp>
-                        <xsl:value-of select="&quot;1999-05-31T13:20:00-05:00&quot;"/>
+                        <xsl:value-of select="current-dateTime()"/>
                     </pfx3:timestamp>
                 </pfx3:Header>
                 <ns2:Body>
                     <ns2:sourcePath>
-                        <xsl:value-of select="&quot;C:\tibco\designer\5.11\FileTOread\input&quot;"/>
+                        <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\input&quot;"/>
                     </ns2:sourcePath>
                     <ns2:filename>
                         <xsl:value-of select="&quot;\Catalog.xml&quot;"/>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pd:ProcessDefinition xmlns:pfx="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ParseRenderCatalogXMLRequest.xsd" xmlns:pfx2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Catalog.xsd" xmlns:ns="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:pfx3="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Course.xsd" xmlns:pfx4="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/PaseandRenderCatalogXMLResponse.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/schemas/project0/Resources/Schemas/Commons/Header.xsd" xmlns:ns4="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns3="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns5="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003">
     <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ParseRenderCatalogXMLRequest.xsd" schemaLocation="/Resources/Schemas/Services/PaseandRenderCatalogXMLRequest.xsd"/>
-    <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Course.xsd" schemaLocation="/Resources/Schemas/Models/Course.xsd"/>
     <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Catalog.xsd" schemaLocation="/Resources/Schemas/Models/Catalog.xsd"/>
     <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/PaseandRenderCatalogXMLResponse.xsd" schemaLocation="/Resources/Schemas/Services/PaseandRenderCatalogXMLResponse.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Course.xsd" schemaLocation="/Resources/Schemas/Models/Course.xsd"/>
     <pd:name>Processes/Services/Parse&amp;render.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startType ref="pfx:ParseRenderCatalogXMLRequest"/>
@@ -26,8 +26,8 @@
     </pd:returnBindings>
     <pd:endName>End</pd:endName>
     <pd:endType ref="pfx4:PaseandRenderCatalogXMLResponse"/>
-    <pd:endX>910</pd:endX>
-    <pd:endY>126</pd:endY>
+    <pd:endX>976</pd:endX>
+    <pd:endY>118</pd:endY>
     <pd:errorSchemas/>
     <pd:processVariables>
         <Variable0>
@@ -54,8 +54,8 @@
     <pd:activity name="Parse XML">
         <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
         <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
-        <pd:x>465</pd:x>
-        <pd:y>133</pd:y>
+        <pd:x>350</pd:x>
+        <pd:y>126</pd:y>
         <config>
             <inputStyle>text</inputStyle>
             <xsdVersion>default</xsdVersion>
@@ -71,10 +71,10 @@
     <pd:group name="Group">
         <pd:type>com.tibco.pe.core.LoopGroup</pd:type>
         <pd:resourceType>ae.process.group</pd:resourceType>
-        <pd:x>550</pd:x>
+        <pd:x>453</pd:x>
         <pd:y>34</pd:y>
-        <pd:width>247</pd:width>
-        <pd:height>167</pd:height>
+        <pd:width>414</pd:width>
+        <pd:height>168</pd:height>
         <pd:collapsedWidth>57</pd:collapsedWidth>
         <pd:collapsedHeight>70</pd:collapsedHeight>
         <pd:groupVariables/>
@@ -98,8 +98,22 @@
             <pd:conditionType>always</pd:conditionType>
         </pd:transition>
         <pd:transition>
-            <pd:from>Log</pd:from>
+            <pd:from>Write File</pd:from>
             <pd:to>end</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Log</pd:from>
+            <pd:to>Render XML</pd:to>
+            <pd:lineType>Default</pd:lineType>
+            <pd:lineColor>-16777216</pd:lineColor>
+            <pd:conditionType>always</pd:conditionType>
+        </pd:transition>
+        <pd:transition>
+            <pd:from>Render XML</pd:from>
+            <pd:to>Write File</pd:to>
             <pd:lineType>Default</pd:lineType>
             <pd:lineColor>-16777216</pd:lineColor>
             <pd:conditionType>always</pd:conditionType>
@@ -107,8 +121,8 @@
         <pd:activity name="Log">
             <pd:type>com.tibco.pe.core.WriteToLogActivity</pd:type>
             <pd:resourceType>ae.activities.log</pd:resourceType>
-            <pd:x>650</pd:x>
-            <pd:y>116</pd:y>
+            <pd:x>555</pd:x>
+            <pd:y>125</pd:y>
             <config>
                 <role>User</role>
             </config>
@@ -118,6 +132,62 @@
                         <xsl:value-of select="tib:render-xml($CCourse/pfx3:Course, false(), false())"/>
                     </message>
                 </ns:ActivityInput>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Write File">
+            <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+            <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+            <pd:x>759</pd:x>
+            <pd:y>133</pd:y>
+            <config>
+                <encoding>text</encoding>
+                <compressFile>None</compressFile>
+            </config>
+            <pd:inputBindings>
+                <ns4:WriteActivityInputTextClass>
+                    <fileName>
+                        <xsl:value-of select="concat(&quot;D:\TIBCO\TIBCO_Projects\FileTOread\Output\course&quot;,$CCourse/pfx3:Course/pfx3:Id,&quot;.xml&quot;)"/>
+                    </fileName>
+                    <textContent>
+                        <xsl:value-of select="$Render-XML/xmlString"/>
+                    </textContent>
+                </ns4:WriteActivityInputTextClass>
+            </pd:inputBindings>
+        </pd:activity>
+        <pd:activity name="Render XML">
+            <pd:type>com.tibco.plugin.xml.XMLRendererActivity</pd:type>
+            <pd:resourceType>ae.activities.XMLRendererActivity</pd:resourceType>
+            <pd:x>644</pd:x>
+            <pd:y>133</pd:y>
+            <config>
+                <renderAsText>text</renderAsText>
+                <validateInput>true</validateInput>
+                <textEncoding>UTF-8</textEncoding>
+                <term ref="pfx3:Course"/>
+            </config>
+            <pd:inputBindings>
+                <xsl:for-each select="$CCourse/pfx3:Course">
+                    <pfx3:Course>
+                        <pfx3:Id>
+                            <xsl:value-of select="pfx3:Id"/>
+                        </pfx3:Id>
+                        <pfx3:author>
+                            <xsl:value-of select="pfx3:author"/>
+                        </pfx3:author>
+                        <pfx3:title>
+                            <xsl:value-of select="pfx3:title"/>
+                        </pfx3:title>
+                        <pfx3:genre>
+                            <xsl:value-of select="pfx3:genre"/>
+                        </pfx3:genre>
+                        <pfx3:price>
+                            <xsl:value-of select="pfx3:price"/>
+                        </pfx3:price>
+                        <pfx3:publishDate>
+                            <xsl:value-of select="pfx3:publishDate"/>
+                        </pfx3:publishDate>
+                    </pfx3:Course>
+                </xsl:for-each>
             </pd:inputBindings>
         </pd:activity>
     </pd:group>

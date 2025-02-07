@@ -9,4 +9,13 @@
         <Course:price>29.99</Course:price>
         <Course:publishDate>2025-02-06</Course:publishDate>
     </Course:Course>
+    <Course:Course>
+        <Course:Id>102</Course:Id>
+        <Course:author>John Doe</Course:author>
+        <Course:title>Introduction to XML</Course:title>
+        <Course:genre>Technology</Course:genre>
+        <Course:price>39.99</Course:price>
+        <Course:publishDate>2025-02-07</Course:publishDate>
+    </Course:Course>
+
 </Catalog>
