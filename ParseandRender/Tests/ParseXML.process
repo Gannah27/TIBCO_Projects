@@ -17,7 +17,7 @@
         <pd:x>278</pd:x>
         <pd:y>67</pd:y>
         <config>
-            <processName>/Processes/Services/Parse&amp;render.process</processName>
+            <processName>/Processes/Services/Parse&amp;renderNames.process</processName>
         </config>
         <pd:inputBindings>
             <ns2:ParseRenderCatalogXMLRequest>
@@ -36,7 +36,7 @@
                         <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\input&quot;"/>
                     </ns2:sourcePath>
                     <ns2:filename>
-                        <xsl:value-of select="&quot;\Catalog.xml&quot;"/>
+                        <xsl:value-of select="&quot;\Names.xml&quot;"/>
                     </ns2:filename>
                 </ns2:Body>
             </ns2:ParseRenderCatalogXMLRequest>

@@ -5,7 +5,7 @@
     <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/PaseandRenderCatalogXMLResponse.xsd" schemaLocation="/Resources/Schemas/Services/PaseandRenderCatalogXMLResponse.xsd"/>
     <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Course.xsd" schemaLocation="/Resources/Schemas/Models/Course.xsd"/>
     <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Names.xsd" schemaLocation="/Resources/Schemas/Models/Names.xsd"/>
-    <pd:name>Processes/Services/Parse&amp;render.process</pd:name>
+    <pd:name>Processes/Services/Parse&amp;renderNames.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startType ref="pfx:ParseRenderCatalogXMLRequest"/>
     <pd:startX>59</pd:startX>
@@ -83,8 +83,8 @@
         <config>
             <pd:groupType>inputLoop</pd:groupType>
             <pd:serializable>false</pd:serializable>
-            <pd:over>$Parse-XML/pfx2:Catalog/pfx3:Course</pd:over>
-            <pd:iterationElementSlot>CCourse</pd:iterationElementSlot>
+            <pd:over>$Parse-XML/pfx5:Names/pfx5:name</pd:over>
+            <pd:iterationElementSlot>CName</pd:iterationElementSlot>
             <pd:indexSlot>index</pd:indexSlot>
             <pd:activityOutputName/>
             <pd:accumulateOutput>false</pd:accumulateOutput>
@@ -130,7 +130,7 @@
             <pd:inputBindings>
                 <ns:ActivityInput>
                     <message>
-                        <xsl:value-of select="tib:render-xml($CCourse/pfx3:Course, false(), false())"/>
+                        <xsl:value-of select="tib:render-xml($CName/pfx5:name, false(), false())"/>
                     </message>
                 </ns:ActivityInput>
             </pd:inputBindings>
@@ -147,7 +147,7 @@
             <pd:inputBindings>
                 <ns4:WriteActivityInputTextClass>
                     <fileName>
-                        <xsl:value-of select="concat(&quot;D:\TIBCO\TIBCO_Projects\FileTOread\Output\course&quot;,$CCourse/pfx3:Course/pfx3:Id,&quot;.xml&quot;)"/>
+                        <xsl:value-of select="concat(&quot;D:\TIBCO\TIBCO_Projects\FileTOread\Output\name&quot;,$CName/pfx5:name,&quot;.xml&quot;)"/>
                     </fileName>
                     <textContent>
                         <xsl:value-of select="$Render-XML/xmlString"/>
@@ -158,37 +158,20 @@
         <pd:activity name="Render XML">
             <pd:type>com.tibco.plugin.xml.XMLRendererActivity</pd:type>
             <pd:resourceType>ae.activities.XMLRendererActivity</pd:resourceType>
-            <pd:x>644</pd:x>
-            <pd:y>133</pd:y>
+            <pd:x>652</pd:x>
+            <pd:y>123</pd:y>
             <config>
                 <renderAsText>text</renderAsText>
                 <validateInput>true</validateInput>
                 <textEncoding>UTF-8</textEncoding>
-                <term ref="pfx3:Course"/>
+                <term ref="pfx5:Names"/>
             </config>
             <pd:inputBindings>
-                <xsl:for-each select="$CCourse/pfx3:Course">
-                    <pfx3:Course>
-                        <pfx3:Id>
-                            <xsl:value-of select="pfx3:Id"/>
-                        </pfx3:Id>
-                        <pfx3:author>
-                            <xsl:value-of select="pfx3:author"/>
-                        </pfx3:author>
-                        <pfx3:title>
-                            <xsl:value-of select="pfx3:title"/>
-                        </pfx3:title>
-                        <pfx3:genre>
-                            <xsl:value-of select="pfx3:genre"/>
-                        </pfx3:genre>
-                        <pfx3:price>
-                            <xsl:value-of select="pfx3:price"/>
-                        </pfx3:price>
-                        <pfx3:publishDate>
-                            <xsl:value-of select="pfx3:publishDate"/>
-                        </pfx3:publishDate>
-                    </pfx3:Course>
-                </xsl:for-each>
+                <pfx5:Names>
+                    <xsl:copy-of select="$CName/ancestor-or-self::*/namespace::node()"/>
+                    <xsl:copy-of select="$CName/@*"/>
+                    <xsl:copy-of select="$CName/node()"/>
+                </pfx5:Names>
             </pd:inputBindings>
         </pd:activity>
     </pd:group>

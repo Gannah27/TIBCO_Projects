@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Names xmlns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Names.xsd">
+    <name>John Doe</name>
+    <name>Jane Smith</name>
+    <name>Michael Johnson</name>
+</Names>
