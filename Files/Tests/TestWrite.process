@@ -37,7 +37,7 @@
                     </ns:message>
                 </ns:Body>
                 <ns:sourceFilePath>
-                    <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\Output\&quot;"/>
+                    <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\input\&quot;"/>
                 </ns:sourceFilePath>
                 <ns:FileName>
                     <xsl:value-of select="concat(&quot;Year&quot;,tib:format-dateTime('YYMMDD',current-dateTime()),&quot;.xml&quot;)"/>
