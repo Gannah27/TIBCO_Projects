@@ -33,7 +33,7 @@
                 </pfx:Header>
                 <ns:Body>
                     <ns:sourcePath>
-                        <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\Output\&quot;"/>
+                        <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\input\&quot;"/>
                     </ns:sourcePath>
                     <ns:pattern>
                         <xsl:value-of select="'*.txt'"/>

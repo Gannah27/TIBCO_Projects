@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ns0:Names xmlns:ns0="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Names.xsd">
-    <ns0:name>John Doe</ns0:name>
-</ns0:Names>
