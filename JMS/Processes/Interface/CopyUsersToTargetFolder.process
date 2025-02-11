@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pfx="http://www.tibco.com/schemas/JMS/Resources/Schemas/Services/MoveUsersToTargetFolderRequest.xsd" xmlns:pfx2="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/CopyFileRequest.xsd" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/jms" xmlns:pfx3="http://www.tibco.com/schemas/JMS/Resources/Schemas/Services/CopyUserToTargetFolderRequest.xsd" xmlns:pfx4="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/CopyUserToTargetResponse.xsd" xmlns:ns2="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:ns4="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/CopyFileResponse.xsd" xmlns:ns3="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RenameRequest.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns6="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Context.xsd" xmlns:ns5="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/JMS/Resources/Schemas/Services/MoveUsersToTargetFolderRequest.xsd" schemaLocation="/Resources/Schemas/Orchestration/MoveUsersToTargetFolderRequest.xsd"/>
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/JMS/Resources/Schemas/Services/CopyUserToTargetFolderRequest.xsd" schemaLocation="/Resources/Schemas/Orchestration/CopyUserToTargetFolderRequest.xsd"/>
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/CopyUserToTargetResponse.xsd" schemaLocation="/Resources/Schemas/Orchestration/CopyUserToTargetResponse.xsd"/>
+    <pd:name>Processes/Interface/CopyUsersToTargetFolder.process</pd:name>
+    <pd:startName>JMS Queue Receiver</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings>
+        <pfx4:CopyUserToTargetResponse>
+            <xsl:copy-of select="$CopyFiles/ns4:ListFileResponse/ns1:Header"/>
+            <pfx4:Body>
+                <xsl:copy-of select="$CopyFiles/ns4:ListFileResponse/ns4:Body/ancestor-or-self::*/namespace::node()"/>
+                <xsl:copy-of select="$CopyFiles/ns4:ListFileResponse/ns4:Body/@*"/>
+                <xsl:copy-of select="$CopyFiles/ns4:ListFileResponse/ns4:Body/node()"/>
+            </pfx4:Body>
+        </pfx4:CopyUserToTargetResponse>
+    </pd:returnBindings>
+    <pd:starter name="JMS Queue Receiver">
+        <pd:type>com.tibco.plugin.jms.JMSQueueEventSource</pd:type>
+        <pd:resourceType>ae.activities.JMSQueueEventSource</pd:resourceType>
+        <pd:x>127</pd:x>
+        <pd:y>78</pd:y>
+        <config>
+            <PermittedMessageType>XML Text</PermittedMessageType>
+            <SessionAttributes>
+                <transacted>false</transacted>
+                <acknowledgeMode>1</acknowledgeMode>
+                <maxSessions>1</maxSessions>
+                <destination>%%Resources/Connections/JMS/CopyQueue%%</destination>
+            </SessionAttributes>
+            <ConfigurableHeaders>
+                <JMSDeliveryMode>PERSISTENT</JMSDeliveryMode>
+                <JMSExpiration>0</JMSExpiration>
+                <JMSPriority>4</JMSPriority>
+            </ConfigurableHeaders>
+            <ConnectionReference>/Resources/Connections/JMS/JMS Connection.sharedjmscon</ConnectionReference>
+            <OutDataxsdString ref="pfx3:CopyUserToTargetFolderRequest"/>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx4:CopyUserToTargetResponse"/>
+    <pd:endX>684</pd:endX>
+    <pd:endY>73</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1739200193957</pd:targetNamespace>
+    <pd:activity name="CopyFiles">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>331</pd:x>
+        <pd:y>88</pd:y>
+        <config>
+            <processName>/Processes/Services/CopyFiles.process</processName>
+        </config>
+        <pd:inputBindings>
+            <pfx2:CopyFileRequest>
+                <ns1:Header>
+                    <ns6:Context>
+                        <ns6:correlationId>
+                            <xsl:value-of select="&quot;2214&quot;"/>
+                        </ns6:correlationId>
+                    </ns6:Context>
+                    <ns1:timestamp>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </ns1:timestamp>
+                </ns1:Header>
+                <pfx2:Body>
+                    <pfx2:source>
+                        <pfx2:sourcePath>
+                            <xsl:value-of select="$JMS-Queue-Receiver/ns:ActivityOutput/Body/pfx3:CopyUserToTargetFolderRequest/pfx3:Body/pfx3:source/pfx3:sourcePath"/>
+                        </pfx2:sourcePath>
+                        <pfx2:sfileName>
+                            <xsl:value-of select="$JMS-Queue-Receiver/ns:ActivityOutput/Body/pfx3:CopyUserToTargetFolderRequest/pfx3:Body/pfx3:source/pfx3:sfileName"/>
+                        </pfx2:sfileName>
+                    </pfx2:source>
+                    <pfx2:target>
+                        <pfx2:targetPath>
+                            <xsl:value-of select="$JMS-Queue-Receiver/ns:ActivityOutput/Body/pfx3:CopyUserToTargetFolderRequest/pfx3:Body/pfx3:target/pfx3:targetPath"/>
+                        </pfx2:targetPath>
+                        <pfx2:tfileName>
+                            <xsl:value-of select="$JMS-Queue-Receiver/ns:ActivityOutput/Body/pfx3:CopyUserToTargetFolderRequest/pfx3:Body/pfx3:target/pfx3:tfileName"/>
+                        </pfx2:tfileName>
+                    </pfx2:target>
+                </pfx2:Body>
+            </pfx2:CopyFileRequest>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Reply to JMS Message">
+        <pd:type>com.tibco.plugin.jms.JMSReplyActivity</pd:type>
+        <pd:resourceType>ae.activities.JMSReplyActivity</pd:resourceType>
+        <pd:x>528</pd:x>
+        <pd:y>91</pd:y>
+        <config>
+            <PermittedMessageType>XML Text</PermittedMessageType>
+            <SessionAttributes>
+                <transacted>false</transacted>
+                <acknowledgeMode>1</acknowledgeMode>
+                <maxSessions>1</maxSessions>
+            </SessionAttributes>
+            <ConfigurableHeaders>
+                <JMSDeliveryMode>PERSISTENT</JMSDeliveryMode>
+                <JMSExpiration>0</JMSExpiration>
+                <JMSPriority>4</JMSPriority>
+                <EventSource>JMS Queue Receiver</EventSource>
+            </ConfigurableHeaders>
+            <InDataxsdString ref="pfx4:CopyUserToTargetResponse"/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInput>
+                <Body>
+                    <pfx4:CopyUserToTargetResponse>
+                        <ns1:Header>
+                            <ns6:Context>
+                                <ns6:correlationId>
+                                    <xsl:value-of select="&quot;123456&quot;"/>
+                                </ns6:correlationId>
+                            </ns6:Context>
+                            <ns1:timestamp>
+                                <xsl:value-of select="current-dateTime()"/>
+                            </ns1:timestamp>
+                        </ns1:Header>
+                        <pfx4:Body>
+                            <ns5:Response>
+                                <ns5:message>
+                                    <xsl:value-of select="$CopyFiles/ns4:ListFileResponse/ns4:Body/ns5:Response/ns5:message"/>
+                                </ns5:message>
+                                <ns5:ResponseStatus>
+                                    <xsl:value-of select="$CopyFiles/ns4:ListFileResponse/ns4:Body/ns5:Response/ns5:ResponseStatus"/>
+                                </ns5:ResponseStatus>
+                            </ns5:Response>
+                        </pfx4:Body>
+                    </pfx4:CopyUserToTargetResponse>
+                </Body>
+            </ns:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>JMS Queue Receiver</pd:from>
+        <pd:to>CopyFiles</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>CopyFiles</pd:from>
+        <pd:to>Reply to JMS Message</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Reply to JMS Message</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
