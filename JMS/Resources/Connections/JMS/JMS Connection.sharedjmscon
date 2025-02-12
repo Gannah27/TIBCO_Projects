@@ -20,5 +20,12 @@
             <autoGenClientID>true</autoGenClientID>
         </ConnectionAttributes>
         <UseXACF>false</UseXACF>
+        <JNDIProperties>
+            <row>
+                <Name>platform</Name>
+                <Type>string</Type>
+                <Value>required</Value>
+            </row>
+        </JNDIProperties>
     </config>
 </BWSharedResource>

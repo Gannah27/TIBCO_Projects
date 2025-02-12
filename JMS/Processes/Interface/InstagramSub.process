@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns5="http://www.tibco.com/pe/WriteToLogActivitySchema" xmlns:pfx="http://www.tibco.com/schemas/JMS/Resources/Schemas/Services/PublishMessageReq.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/PublishMessageRes.xsd" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/jms" xmlns:pfx3="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Context.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/ListFileRequest.xsd" xmlns:ns1="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:ns4="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ListFileResponse.xsd" xmlns:ns3="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd">
+    <xsd:import namespace="http://www.tibco.com/schemas/JMS/Resources/Schemas/Services/PublishMessageReq.xsd" schemaLocation="/Resources/Schemas/Orchestration/PublishMessageReq.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/PublishMessageRes.xsd" schemaLocation="/Resources/Schemas/Orchestration/PublishMessageRes.xsd"/>
+    <pd:name>Processes/Interface/InstagramSub.process</pd:name>
+    <pd:startName>JMS Topic Subscriber</pd:startName>
+    <pd:startX>0</pd:startX>
+    <pd:startY>0</pd:startY>
+    <pd:returnBindings>
+        <pfx2:PublishMessageRes>
+            <ns1:Header>
+                <pfx3:Context>
+                    <pfx3:correlationId>
+                        <xsl:value-of select="&quot;121212&quot;"/>
+                    </pfx3:correlationId>
+                </pfx3:Context>
+                <ns1:timestamp>
+                    <xsl:value-of select="current-dateTime()"/>
+                </ns1:timestamp>
+            </ns1:Header>
+            <pfx2:Body>
+                <xsl:copy-of select="$MainFuncPubSub/ns4:ListFileResponse/ns4:Body/ns3:Response"/>
+            </pfx2:Body>
+        </pfx2:PublishMessageRes>
+    </pd:returnBindings>
+    <pd:starter name="JMS Topic Subscriber">
+        <pd:type>com.tibco.plugin.jms.JMSTopicEventSource</pd:type>
+        <pd:resourceType>ae.activities.JMSTopicEventSource</pd:resourceType>
+        <pd:x>172</pd:x>
+        <pd:y>108</pd:y>
+        <config>
+            <PermittedMessageType>XML Text</PermittedMessageType>
+            <SessionAttributes>
+                <transacted>false</transacted>
+                <acknowledgeMode>1</acknowledgeMode>
+                <maxSessions>1</maxSessions>
+                <destination>%%Resources/Connections/JMS/PublicQueue%%</destination>
+                <durable>true</durable>
+                <subscriptionName>durable.Instagram</subscriptionName>
+                <selector>%%Resources/Connections/JMS/platform/instagram%%</selector>
+            </SessionAttributes>
+            <ConfigurableHeaders>
+                <JMSDeliveryMode>PERSISTENT</JMSDeliveryMode>
+                <JMSExpiration>0</JMSExpiration>
+                <JMSPriority>4</JMSPriority>
+            </ConfigurableHeaders>
+            <ConnectionReference>/Resources/Connections/JMS/JMS Connection.sharedjmscon</ConnectionReference>
+            <ApplicationProperties>/Resources/Connections/JMS/JMS Application Properties.sharedjmsapp</ApplicationProperties>
+            <OutDataxsdString ref="pfx:PublishMessageReq"/>
+        </config>
+        <pd:inputBindings/>
+    </pd:starter>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx2:PublishMessageRes"/>
+    <pd:endX>728</pd:endX>
+    <pd:endY>115</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1739297918619</pd:targetNamespace>
+    <pd:activity name="MainFuncPubSub">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>440</pd:x>
+        <pd:y>106</pd:y>
+        <config>
+            <processName>/Processes/Interface/MainFuncPubSub.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns2:ListFileRequest>
+                <ns1:Header>
+                    <pfx3:Context>
+                        <pfx3:correlationId>
+                            <xsl:value-of select="&quot;11121414522&quot;"/>
+                        </pfx3:correlationId>
+                    </pfx3:Context>
+                    <ns1:timestamp>
+                        <xsl:value-of select="current-dateTime()"/>
+                    </ns1:timestamp>
+                </ns1:Header>
+                <ns2:Body>
+                    <ns2:sourcePath>
+                        <xsl:value-of select="$JMS-Topic-Subscriber/ns:ActivityOutput/Body/pfx:PublishMessageReq/pfx:Body/pfx:source/pfx:sourcePath"/>
+                    </ns2:sourcePath>
+                    <ns2:pattern>
+                        <xsl:value-of select="$JMS-Topic-Subscriber/ns:ActivityOutput/Body/pfx:PublishMessageReq/pfx:Body/pfx:source/pfx:sfileName"/>
+                    </ns2:pattern>
+                </ns2:Body>
+            </ns2:ListFileRequest>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>MainFuncPubSub</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>JMS Topic Subscriber</pd:from>
+        <pd:to>MainFuncPubSub</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

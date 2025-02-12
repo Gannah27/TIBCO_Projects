@@ -2,28 +2,28 @@
 <repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
 	<globalVariables>
 		<globalVariable>
-			<name>CopyQueue</name>
-			<value>Q.CopyUserToTargetFolder</value>
+			<name>facebook</name>
+			<value>platform='Face'</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1739272812557</modTime>
+			<modTime>1739353130597</modTime>
 		</globalVariable>
 		<globalVariable>
-			<name>PublicQueue</name>
-			<value>T.PublishQueue</value>
+			<name>instagram</name>
+			<value>platform='Insta'</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1739339744919</modTime>
+			<modTime>1739353130627</modTime>
 		</globalVariable>
 		<globalVariable>
-			<name>UserQueue</name>
-			<value>Q.MoveUsersToTargetFolder</value>
+			<name>whatsapp</name>
+			<value>platform='Whats'</value>
 			<deploymentSettable>true</deploymentSettable>
 			<serviceSettable>false</serviceSettable>
 			<type>String</type>
-			<modTime>1739265054260</modTime>
+			<modTime>1739353130642</modTime>
 		</globalVariable>
 	</globalVariables>
 </repository>

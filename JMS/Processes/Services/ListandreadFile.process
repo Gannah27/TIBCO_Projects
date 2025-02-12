@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/ListFileRequest.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ListFileResponse.xsd" xmlns:ns02="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/CopyFileRequest.xsd" xmlns:ns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file">
+<pd:ProcessDefinition xmlns:pfx="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/ListFileRequest.xsd" xmlns:pfx2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ListFileResponse.xsd" xmlns:ns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns3="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RenameRequest.xsd" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns02="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/CopyFileRequest.xsd" xmlns:ns32="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveRequest.xsd">
     <xsd:import namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/ListFileRequest.xsd" schemaLocation="/Resources/Schemas/Services/ListFileRequest.xsd"/>
     <xsd:import namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ListFileResponse.xsd" schemaLocation="/Resources/Schemas/Services/ListFileResponse.xsd"/>
     <pd:name>Processes/Services/ListandreadFile.process</pd:name>
@@ -54,7 +54,7 @@
         </config>
         <pd:inputBindings>
             <Files>
-                <xsl:for-each select="$List-Files/ns1:ListFilesActivityOutput/files/fileInfo[contains(fileName,'.txt') and starts-with(fileName,'file')]">
+                <xsl:for-each select="$List-Files/ns1:ListFilesActivityOutput/files/fileInfo[contains(fileName,'.xml') and starts-with(fileName,'course101')]">
                     <fileinfo>
                         <fullName>
                             <xsl:value-of select="fullName"/>
@@ -204,7 +204,7 @@
                     <ns02:Body>
                         <ns02:source>
                             <ns02:sourcePath>
-                                <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\input\&quot;"/>
+                                <xsl:value-of select="$Start/pfx:ListFileRequest/pfx:Body/pfx:sourcePath"/>
                             </ns02:sourcePath>
                             <ns02:sfileName>
                                 <xsl:value-of select="$Read-File/ns1:ReadActivityOutputTextClass/fileInfo/fileName"/>
@@ -239,12 +239,12 @@
                 <processName>/Processes/Services/RenameandMove.process</processName>
             </config>
             <pd:inputBindings>
-                <ns3:RenameRequest xmlns:ns3="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RenameRequest.xsd">
+                <ns3:RenameRequest>
                     <xsl:copy-of select="$Start/pfx:ListFileRequest/ns:Header"/>
                     <ns3:Body>
                         <ns3:source>
                             <ns3:sourcePath>
-                                <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\input\&quot;"/>
+                                <xsl:value-of select="$Start/pfx:ListFileRequest/pfx:Body/pfx:sourcePath"/>
                             </ns3:sourcePath>
                             <ns3:sfileName>
                                 <xsl:value-of select="$currentFile/fileinfo/filename"/>
@@ -271,17 +271,17 @@
                 <processName>/Processes/Services/RemoveFile.process</processName>
             </config>
             <pd:inputBindings>
-                <ns3:RemoveRequest xmlns:ns3="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveRequest.xsd">
+                <ns32:RemoveRequest>
                     <xsl:copy-of select="$Start/pfx:ListFileRequest/ns:Header"/>
-                    <ns3:Body>
-                        <ns3:sourcePath>
-                            <xsl:value-of select="&quot;D:\TIBCO\TIBCO_Projects\FileTOread\input\&quot;"/>
-                        </ns3:sourcePath>
-                        <ns3:fileName>
+                    <ns32:Body>
+                        <ns32:sourcePath>
+                            <xsl:value-of select="$Start/pfx:ListFileRequest/pfx:Body/pfx:sourcePath"/>
+                        </ns32:sourcePath>
+                        <ns32:fileName>
                             <xsl:value-of select="$currentFile/fileinfo/filename"/>
-                        </ns3:fileName>
-                    </ns3:Body>
-                </ns3:RemoveRequest>
+                        </ns32:fileName>
+                    </ns32:Body>
+                </ns32:RemoveRequest>
             </pd:inputBindings>
         </pd:activity>
     </pd:group>

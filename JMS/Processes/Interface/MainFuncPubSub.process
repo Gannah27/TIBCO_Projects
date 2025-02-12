@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/ListFileRequest.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ListFileResponse.xsd" xmlns:ns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/ListFileRequest.xsd" schemaLocation="/Resources/Schemas/Services/ListFileRequest.xsd"/>
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/ListFileResponse.xsd" schemaLocation="/Resources/Schemas/Services/ListFileResponse.xsd"/>
+    <pd:name>Processes/Interface/MainFuncPubSub.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:ListFileRequest"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx2:ListFileResponse>
+            <xsl:copy-of select="$ListandreadFile/pfx2:ListFileResponse/ns:Header"/>
+            <xsl:copy-of select="$ListandreadFile/pfx2:ListFileResponse/pfx2:Body"/>
+        </pfx2:ListFileResponse>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx2:ListFileResponse"/>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1739340509716</pd:targetNamespace>
+    <pd:activity name="ListandreadFile">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>279</pd:x>
+        <pd:y>66</pd:y>
+        <config>
+            <processName>/Processes/Services/ListandreadFile.process</processName>
+        </config>
+        <pd:inputBindings>
+            <pfx:ListFileRequest>
+                <xsl:copy-of select="$Start/pfx:ListFileRequest/ns:Header"/>
+                <pfx:Body>
+                    <pfx:sourcePath>
+                        <xsl:value-of select="$Start/pfx:ListFileRequest/pfx:Body/pfx:sourcePath"/>
+                    </pfx:sourcePath>
+                    <pfx:pattern>
+                        <xsl:value-of select="$Start/pfx:ListFileRequest/pfx:Body/pfx:pattern"/>
+                    </pfx:pattern>
+                </pfx:Body>
+            </pfx:ListFileRequest>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>ListandreadFile</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ListandreadFile</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

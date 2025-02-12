@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveRequest.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveResponse.xsd" xmlns:ns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:ns0="www.tibco.com/plugin/Sleep" xmlns:ns2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd">
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveRequest.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveResponse.xsd" xmlns:ns02="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:ns0="www.tibco.com/plugin/Sleep" xmlns:ns03="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:ns2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd">
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveRequest.xsd" schemaLocation="/Resources/Schemas/Services/RemoveRequest.xsd"/>
     <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RemoveResponse.xsd" schemaLocation="/Resources/Schemas/Services/RemoveResponse.xsd"/>
     <pd:name>Processes/Services/RemoveFile.process</pd:name>
@@ -85,11 +85,11 @@
             <pd:y>61</pd:y>
             <config/>
             <pd:inputBindings>
-                <ns0:RemoveActivityInputClass xmlns:ns0="http://www.tibco.com/namespaces/tnt/plugins/file">
+                <ns02:RemoveActivityInputClass>
                     <fileName>
                         <xsl:value-of select="concat($Start/pfx:RemoveRequest/pfx:Body/pfx:sourcePath,$Start/pfx:RemoveRequest/pfx:Body/pfx:fileName)"/>
                     </fileName>
-                </ns0:RemoveActivityInputClass>
+                </ns02:RemoveActivityInputClass>
             </pd:inputBindings>
         </pd:activity>
         <pd:activity name="Sleep">
@@ -115,11 +115,11 @@
                 <faultName/>
             </config>
             <pd:inputBindings>
-                <ns0:ActivityInput xmlns:ns0="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema">
+                <ns03:ActivityInput>
                     <message>
                         <xsl:value-of select="concat(&quot;File hasn't been removed&quot;,$index)"/>
                     </message>
-                </ns0:ActivityInput>
+                </ns03:ActivityInput>
             </pd:inputBindings>
         </pd:activity>
     </pd:group>
