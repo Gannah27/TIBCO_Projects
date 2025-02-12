@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RenameRequest.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RenameResponse.xsd" xmlns:ns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Header.xsd" xmlns:pfx3="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns2="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Commons/Response.xsd">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RenameResponse.xsd" schemaLocation="/Resources/Schemas/Services/RenameResponse.xsd"/>
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/Files/Resources/Schemas/Services/RenameRequest.xsd" schemaLocation="/Resources/Schemas/Services/RenameRequest.xsd"/>
+    <pd:name>Processes/Services/RenameandMove.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:RenameRequest"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx2:RenameResponse>
+            <xsl:copy-of select="$Start/pfx:RenameRequest/ns:Header"/>
+            <pfx2:Body>
+                <ns2:Response>
+                    <ns2:message>
+                        <xsl:value-of select="&quot;Default message&quot;"/>
+                    </ns2:message>
+                    <ns2:ResponseStatus>
+                        <xsl:value-of select="&quot;SUCCESS&quot;"/>
+                    </ns2:ResponseStatus>
+                </ns2:Response>
+            </pfx2:Body>
+        </pfx2:RenameResponse>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx2:RenameResponse"/>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1739176327244</pd:targetNamespace>
+    <pd:activity name="Rename File">
+        <pd:type>com.tibco.plugin.file.FileRenameActivity</pd:type>
+        <pd:resourceType>ae.activities.FileRenameActivity</pd:resourceType>
+        <pd:x>291</pd:x>
+        <pd:y>68</pd:y>
+        <config/>
+        <pd:inputBindings>
+            <pfx3:RenameActivityConfig>
+                <fromFileName>
+                    <xsl:value-of select="concat($Start/pfx:RenameRequest/pfx:Body/pfx:source/pfx:sourcePath,$Start/pfx:RenameRequest/pfx:Body/pfx:source/pfx:sfileName)"/>
+                </fromFileName>
+                <toFileName>
+                    <xsl:value-of select="concat($Start/pfx:RenameRequest/pfx:Body/pfx:target/pfx:targetPath,$Start/pfx:RenameRequest/pfx:Body/pfx:target/pfx:tfileName)"/>
+                </toFileName>
+            </pfx3:RenameActivityConfig>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Rename File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Rename File</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

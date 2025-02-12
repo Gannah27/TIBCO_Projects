@@ -1,0 +1,29 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>facebook</name>
+			<value>platform='Face'</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1739353130597</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>instagram</name>
+			<value>platform='Insta'</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1739353130627</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>whatsapp</name>
+			<value>platform='Whats'</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1739353130642</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

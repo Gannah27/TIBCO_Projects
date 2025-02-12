@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Catalog xmlns="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Catalog.xsd"
+         xmlns:Course="http://www.tibco.com/schemas/ParseandRender/Resources/Schemas/Models/Course.xsd">
+    <Course:Course>
+        <Course:Id>101</Course:Id>
+        <Course:author>John Doe</Course:author>
+        <Course:title>Introduction to XML</Course:title>
+        <Course:genre>Technology</Course:genre>
+        <Course:price>29.99</Course:price>
+        <Course:publishDate>2025-02-06</Course:publishDate>
+    </Course:Course>
+</Catalog>
